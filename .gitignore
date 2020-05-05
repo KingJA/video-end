@@ -1,0 +1,5 @@
+# Project exclude paths
+/video-end-api/target/
+/video-end-common/target/
+/video-end-dao/target/
+/video-end-service/target/
