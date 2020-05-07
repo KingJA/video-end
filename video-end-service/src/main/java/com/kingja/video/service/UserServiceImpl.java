@@ -1,9 +1,13 @@
 package com.kingja.video.service;
 
+import com.kingja.video.common.util.MD5Utils;
 import com.kingja.video.dao.UserDao;
+import com.kingja.video.dao.dto.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 /**
  * Description:TODO
@@ -23,7 +27,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(String username, String password) {
-
+    public void saveUser(User user) {
+        userDao.insertUser(user);
     }
 }
