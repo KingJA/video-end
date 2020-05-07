@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiOperation;
  * Email:kingjavip@gmail.com
  */
 
-@Api(value="用户相关业务的接口", tags= {"用户相关业务的controller"})
+@Api(value = "用户相关业务的接口", tags = {"用户相关业务的controller"})
 @RestController
 public class UserController {
     @Autowired
@@ -45,10 +45,11 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseBody
-    @ApiOperation(value="用户登录", notes="用户登录的接口")
-    public ApiResult register(@RequestBody User user) throws Exception {
+    @ApiOperation(value = "用户注册", notes = "用户注册的接口")
+    public ApiResult register(User user) throws Exception {
+        System.out.println("username:" + user.getUsername());
         if (StringUtils.isEmpty(user.getUsername()) || StringUtils.isEmpty(user.getPassword())) {
-            return ApiResult.errorMsg("用户名或密码错误");
+            return ApiResult.errorMsg("用户名或密码不能为空");
         }
         if (userService.hasRegistered(user.getUsername())) {
             return ApiResult.errorMsg("用户名已经注册过");
@@ -57,6 +58,22 @@ public class UserController {
         user.setId(UUID.randomUUID().toString());
         user.setPassword(MD5Utils.getMD5Str(user.getPassword()));
         userService.saveUser(user);
-        return ApiResult.ok("注册成功");
+        return ApiResult.ok(user);
+    }
+
+    @PostMapping("/login")
+    @ResponseBody
+    @ApiOperation(value = "用户登录", notes = "用户登录的接口")
+    public ApiResult login(User user) throws Exception {
+        System.out.println("username:" + user.getUsername());
+        if (StringUtils.isEmpty(user.getUsername()) || StringUtils.isEmpty(user.getPassword())) {
+            return ApiResult.errorMsg("用户名或密码不能为空");
+        }
+
+        user.setPassword(MD5Utils.getMD5Str(user.getPassword()));
+        if (userService.login(user) > 0) {
+            return ApiResult.errorMsg("用户名或密码错误");
+        }
+        return ApiResult.ok(user);
     }
 }

@@ -19,6 +19,9 @@ public interface UserDao {
     @Select("select count(*) from users where username = #{username}")
     public int getCountByUserName(@Param("username") String username);
 
+    @Select("select count(*) from users where username = #{username} and password = #{password}")
+    public int checkLogin(User user);
+
     @Insert("insert into users (id,username, password)values(#{id},#{username}, #{password})")
     public int insertUser(User user);
 }

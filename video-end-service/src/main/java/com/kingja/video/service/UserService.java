@@ -11,5 +11,7 @@ import com.kingja.video.dao.dto.User;
 public interface UserService {
     boolean hasRegistered(String username);
 
-    void saveUser(User user) throws Exception;
+    void saveUser(User user);
+
+    int login(User user);
 }
